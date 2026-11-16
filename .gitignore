@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 bus.db
 .vscode/
+bus_booking_system/

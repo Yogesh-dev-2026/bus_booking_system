@@ -1,0 +1,110 @@
+body { 
+    font-family: Arial, sans-serif;
+    margin: 0; 
+    background: #f4f6f8; 
+}
+
+nav { 
+    background: #1e3a8a; 
+    padding: 12px 24px; 
+    display: flex; 
+    justify-content: space-between; 
+}
+nav a { 
+    color: white; 
+    text-decoration: none; 
+    margin-left: 14px; 
+}
+nav .brand { 
+    font-weight: bold; 
+    font-size: 20px; 
+    margin-left: 0; 
+}
+
+nav span { 
+    color: white; 
+}
+
+main { 
+    max-width: 900px; 
+    margin: 24px auto; 
+    padding: 0 16px; 
+}
+
+.card { 
+    background: white; 
+    padding: 16px; 
+    border-radius: 8px; 
+    margin-bottom: 14px; 
+    box-shadow: 0 1px 4px #0002; 
+}
+
+input, select { 
+    display: block; 
+    width: 100%; 
+    padding: 8px; 
+    margin: 6px 0 12px; 
+    box-sizing: border-box; 
+}
+
+button, .btn { 
+    background: #1e3a8a; 
+    color: white; 
+    border: 0; 
+    padding: 9px 16px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    text-decoration: none; 
+    display: inline-block; 
+}
+
+
+.flash { 
+    background: #fff3cd; 
+    padding: 10px; 
+    border-radius: 5px; 
+    margin-bottom: 14px; 
+}
+
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    background: white; 
+}
+
+th, td { 
+    padding: 8px; 
+    border-bottom: 1px solid #ddd; 
+    text-align: left; 
+}
+
+.seats { 
+    display: grid; 
+    grid-template-columns: repeat(4, 55px); 
+    gap: 8px; 
+    margin: 14px 0; 
+}
+
+.seat input { 
+    display: none; 
+}
+.seat span { 
+    display: block; 
+    text-align: center; 
+    padding: 10px 0; 
+    border: 1px solid #1e3a8a; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    background: white; 
+}
+
+.seat input:checked + span { 
+    background: #16a34a; 
+    color: white; 
+}
+
+.seat input:disabled + span { 
+    background: #ccc; 
+    border-color: #aaa; 
+    cursor: not-allowed; 
+}

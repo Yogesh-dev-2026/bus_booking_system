@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Booking System</title>
+</head>
+<body>
+    <h1>Welcome to Bus Booking System</h1>
+
+    <p>Book your bus tickets easily!</p>
+
+    <form action="/search" method="POST">
+        <label>From:</label>
+        <input type="text" name="source" placeholder="Enter source" required>
+
+        <label>To:</label>
+        <input type="text" name="destination" placeholder="Enter destination" required>
+
+        <label>Travel Date:</label>
+        <input type="date" name="travel_date" value="{{ today }}" required>
+
+        <button type="submit">Search Buses</button>
+    </form>
+</body>
+</html>
