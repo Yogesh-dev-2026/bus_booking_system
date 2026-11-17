@@ -1,6 +1,25 @@
+
 {% extends "base.html" %}
 
 {% block content %}
+
 <h1>Welcome to BusGo!</h1>
-<p>Your Bus Booking System is working.</p>
+
+<p>Book your bus tickets easily!</p>
+
+<form action="/search" method="get" class="card" >
+
+    <label>From:</label>
+    <input type="text" name="source" placeholder="Enter source" required>
+
+    <label>To:</label>
+    <input type="text" name="destination" placeholder="Enter destination" required>
+
+    <label>Travel Date:</label>
+    <input type="date" name="travel_date" value="{{ today }}" required>
+
+    <button type="submit">Search Buses</button>
+
+</form>
+
 {% endblock %}

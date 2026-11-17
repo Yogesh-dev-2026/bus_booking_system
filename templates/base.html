@@ -4,24 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bus Booking System</title>
+
+    <title>BusGo - Bus Booking System</title>
+
+    <!-- Connect CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
-    <h1>Welcome to Bus Booking System</h1>
 
-    <p>Book your bus tickets easily!</p>
+    <header>
+        <h2>🚌 BusGo</h2>
+    </header>
 
-    <form action="/search" method="POST">
-        <label>From:</label>
-        <input type="text" name="source" placeholder="Enter source" required>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
 
-        <label>To:</label>
-        <input type="text" name="destination" placeholder="Enter destination" required>
+    <footer>
+        <p>© 2026 BusGo. All rights reserved.</p>
+    </footer>
 
-        <label>Travel Date:</label>
-        <input type="date" name="travel_date" value="{{ today }}" required>
-
-        <button type="submit">Search Buses</button>
-    </form>
 </body>
 </html>
