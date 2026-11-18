@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ source }} → {{ destination }} on {{ travel_date }}</h2>
+{% for s in buses %}
+<div class="card">
+  <h3>{{ s.bus_name }} <small>({{ s.bus_type }})</small></h3>
+  <p>Departs {{ s.departure_time }} | ₹{{ s.price }} per seat | {{ s.available }} seats left</p>
+  {% if s.available > 0 %}
+    <a class="btn" href="/book/{{ s.id }}">Select seats</a>
+  {% else %}
+    <b>Sold out</b>
+  {% endif %}
+</div>
+{% else %}
+<p>No buses found for this route and date.</p>
+{% endfor %}
+{% endblock %}

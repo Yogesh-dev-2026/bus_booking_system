@@ -1,25 +1,13 @@
-
 {% extends "base.html" %}
-
 {% block content %}
-
-<h1>Welcome to BusGo!</h1>
-
-<p>Book your bus tickets easily!</p>
-
-<form action="/search" method="get" class="card" >
-
-    <label>From:</label>
-    <input type="text" name="source" placeholder="Enter source" required>
-
-    <label>To:</label>
-    <input type="text" name="destination" placeholder="Enter destination" required>
-
-    <label>Travel Date:</label>
-    <input type="date" name="travel_date" value="{{ today }}" required>
-
-    <button type="submit">Search Buses</button>
-
+<h1>Book your bus ticket</h1>
+<form action="/search" method="get" class="card">
+  <label>From</label>
+  <input name="source" placeholder="Chennai" required>
+  <label>To</label>
+  <input name="destination" placeholder="Bangalore" required>
+  <label>Date</label>
+  <input type="date" name="travel_date" min="{{ today }}" required>
+  <button>Search buses</button>
 </form>
-
 {% endblock %}

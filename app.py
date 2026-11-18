@@ -92,6 +92,36 @@ def logout():
     return redirect("/")
 
 
+# ---------- DAY 3: search ----------
+@app.route("/search")
+def search():
+    source = request.args.get("source", "").strip()
+    destination = request.args.get("destination", "").strip()
+    travel_date = request.args.get("travel_date", "")
+
+    if travel_date < date.today().isoformat():
+        flash("Please pick today or a future date")
+        return redirect("/")
+
+    buses = get_db().execute(
+        """
+        SELECT s.*, b.name AS bus_name, b.bus_type, b.total_seats,
+               (b.total_seats - (SELECT COUNT(*) FROM bookings k
+                                 WHERE k.schedule_id = s.id
+                                 AND k.status = 'CONFIRMED')) AS available
+        FROM schedules s
+        JOIN buses b ON b.id = s.bus_id
+        WHERE LOWER(s.source) = LOWER(?) AND LOWER(s.destination) = LOWER(?)
+              AND s.travel_date = ?
+        ORDER BY s.departure_time
+        """,
+        (source, destination, travel_date),
+    ).fetchall()
+
+    return render_template("search.html", buses=buses, source=source,
+                           destination=destination, travel_date=travel_date)
+
+
 # ---- new routes for the next days go ABOVE this line ----
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
