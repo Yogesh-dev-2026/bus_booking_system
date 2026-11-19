@@ -122,6 +122,57 @@ def search():
                            destination=destination, travel_date=travel_date)
 
 
+# ---------- DAY 4: seat selection and booking ----------
+@app.route("/book/<int:schedule_id>", methods=["GET", "POST"])
+@login_required
+def book(schedule_id):
+    db = get_db()
+    schedule = db.execute(
+        """SELECT s.*, b.name AS bus_name, b.bus_type, b.total_seats
+           FROM schedules s JOIN buses b ON b.id = s.bus_id
+           WHERE s.id = ?""",
+        (schedule_id,),
+    ).fetchone()
+    if schedule is None:
+        flash("Schedule not found")
+        return redirect("/")
+
+    rows = db.execute(
+        "SELECT seat_number FROM bookings WHERE schedule_id = ? AND status = 'CONFIRMED'",
+        (schedule_id,),
+    ).fetchall()
+    booked = [r["seat_number"] for r in rows]
+
+    if request.method == "POST":
+        seats = [int(x) for x in request.form.getlist("seats")]
+        name = request.form["passenger_name"].strip()
+        age = request.form["passenger_age"]
+        phone = request.form["passenger_phone"].strip()
+
+        if not seats:
+            flash("Select at least one seat")
+        elif not name or not age.isdigit() or len(phone) < 10:
+            flash("Enter valid passenger details")
+        elif any(s in booked or s < 1 or s > schedule["total_seats"] for s in seats):
+            flash("A seat is not available. Pick another")
+        else:
+            for seat in seats:
+                db.execute(
+                    """INSERT INTO bookings
+                       (user_id, schedule_id, passenger_name, passenger_age,
+                        passenger_phone, seat_number)
+                       VALUES (?, ?, ?, ?, ?, ?)""",
+                    (session["user_id"], schedule_id, name, int(age), phone, seat),
+                )
+            db.commit()
+            total = schedule["price"] * len(seats)
+            flash(f"Booked seats {', '.join(map(str, seats))}. Total: ₹{total}")
+            # Day 5 will change this to redirect("/my-bookings")
+            return redirect("/")
+
+    return render_template("seats.html", schedule=schedule, booked=booked)
+
+
 # ---- new routes for the next days go ABOVE this line ----
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
