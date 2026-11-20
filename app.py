@@ -168,9 +168,39 @@ def book(schedule_id):
             total = schedule["price"] * len(seats)
             flash(f"Booked seats {', '.join(map(str, seats))}. Total: ₹{total}")
             # Day 5 will change this to redirect("/my-bookings")
-            return redirect("/")
+            return redirect("/my-bookings")
 
     return render_template("seats.html", schedule=schedule, booked=booked)
+
+# ---------- DAY 5: my bookings and cancel ----------
+@app.route("/my-bookings")
+@login_required
+def my_bookings():
+    bookings = get_db().execute(
+        """SELECT k.*, s.source, s.destination, s.travel_date, s.departure_time,
+                  s.price, b.name AS bus_name
+           FROM bookings k
+           JOIN schedules s ON s.id = k.schedule_id
+           JOIN buses b ON b.id = s.bus_id
+           WHERE k.user_id = ?
+           ORDER BY k.id DESC""",
+        (session["user_id"],),
+    ).fetchall()
+    return render_template("my_bookings.html", bookings=bookings)
+
+
+@app.route("/cancel/<int:booking_id>", methods=["POST"])
+@login_required
+def cancel_booking(booking_id):
+    db = get_db()
+    booking = db.execute("SELECT * FROM bookings WHERE id = ?", (booking_id,)).fetchone()
+    if booking and (booking["user_id"] == session["user_id"] or session.get("is_admin")):
+        db.execute("UPDATE bookings SET status = 'CANCELLED' WHERE id = ?", (booking_id,))
+        db.commit()
+        flash("Booking cancelled")
+    else:
+        flash("Not allowed")
+    return redirect(request.referrer or "/my-bookings")
 
 
 # ---- new routes for the next days go ABOVE this line ----
