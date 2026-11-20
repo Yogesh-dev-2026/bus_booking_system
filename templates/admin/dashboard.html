@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+<div class="card">
+  <p>Buses: <b>{{ stats.buses }}</b> |
+     Schedules: <b>{{ stats.schedules }}</b> |
+     Confirmed bookings: <b>{{ stats.bookings }}</b> |
+     Users: <b>{{ stats.users }}</b></p>
+  <a class="btn" href="/admin/buses">Manage Buses</a>
+  <a class="btn" href="/admin/schedules">Manage Schedules</a>
+  <a class="btn" href="/admin/bookings">All Bookings</a>
+</div>
+{% endblock %}

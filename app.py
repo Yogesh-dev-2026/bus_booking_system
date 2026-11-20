@@ -202,6 +202,20 @@ def cancel_booking(booking_id):
         flash("Not allowed")
     return redirect(request.referrer or "/my-bookings")
 
+# ---------- DAY 5: admin dashboard ----------
+@app.route("/admin")
+@admin_required
+def admin_dashboard():
+    db = get_db()
+    stats = {
+        "buses": db.execute("SELECT COUNT(*) FROM buses").fetchone()[0],
+        "schedules": db.execute("SELECT COUNT(*) FROM schedules").fetchone()[0],
+        "bookings": db.execute(
+            "SELECT COUNT(*) FROM bookings WHERE status = 'CONFIRMED'").fetchone()[0],
+        "users": db.execute("SELECT COUNT(*) FROM users").fetchone()[0],
+    }
+    return render_template("admin/dashboard.html", stats=stats)
+
 
 # ---- new routes for the next days go ABOVE this line ----
 if __name__ == "__main__":
