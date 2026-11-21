@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Manage Buses</h2>
+<form method="post" class="card">
+  <input name="name" placeholder="Bus name" required>
+  <input name="bus_type" placeholder="AC Sleeper / Non-AC Seater" required>
+  <input type="number" name="total_seats" placeholder="Total seats" min="1" max="60" required>
+  <button>Add bus</button>
+</form>
+<table>
+  <tr><th>ID</th><th>Name</th><th>Type</th><th>Seats</th><th></th></tr>
+  {% for b in buses %}
+  <tr>
+    <td>{{ b.id }}</td><td>{{ b.name }}</td><td>{{ b.bus_type }}</td><td>{{ b.total_seats }}</td>
+    <td><form method="post" action="/admin/buses/{{ b.id }}/delete"><button>Delete</button></form></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

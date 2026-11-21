@@ -216,6 +216,49 @@ def admin_dashboard():
     }
     return render_template("admin/dashboard.html", stats=stats)
 
+@app.route("/admin/buses", methods=["GET", "POST"])
+@admin_required
+def admin_buses():
+    db = get_db()
+    if request.method =="POST":
+        name =request.form["name"].strip()
+        bus_type = request.form["bus_type"].strip()
+        seats = int(request.form["total_seats"])
+        if not name or not bus_type or seats < 1 or seats > 60:
+            flash("Fill all the fields. Seats must be between 1 and 60")
+        else:
+            db.execute(
+                "INSERT INTO buses (name , bus_type, totla_seats) VALUES (?, ?, ?)",
+                (name, bus_type, seats),
+            )
+            db.commit()
+            flash("Bus added")
+        return redirect("/admin/buse")
+    buses = db.execute("SELECT * FROM buses ORDER BY id").fetchall()
+
+@app.route("/admin/buses/<int:bus_id>/delete", methods=["Post"])
+@admin_required
+def delete_bus(bus_id):
+    db = get_db()
+    used = db.execute(
+    "SELECT COUNT(*) FROM schedules WHERE bus_id = ?", (bus_id,)).fetchone()[0]
+    if used:
+        flash("Cannot delete: this bus has schedules")
+    else:
+        db_execute("DELETE FROM buses WHERE id = ?", (bus_id,))
+        db_commit()
+        flash("Bus deleted")
+    return redirect("/admin/buses")
+
+
+
+
+
+
+
+
+
+
 
 # ---- new routes for the next days go ABOVE this line ----
 if __name__ == "__main__":
