@@ -245,8 +245,8 @@ def delete_bus(bus_id):
     if used:
         flash("Cannot delete: this bus has schedules")
     else:
-        db_execute("DELETE FROM buses WHERE id = ?", (bus_id,))
-        db_commit()
+        db.execute("DELETE FROM buses WHERE id = ?", (bus_id,))
+        db.commit()
         flash("Bus deleted")
     return redirect("/admin/buses")
 
