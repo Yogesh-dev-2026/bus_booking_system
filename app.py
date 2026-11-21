@@ -250,14 +250,53 @@ def delete_bus(bus_id):
         flash("Bus deleted")
     return redirect("/admin/buses")
 
+# ---------- DAY 6: manage schedules ----------
+@app.route("/admin/schedules", methods=["GET", "POST"])
+@admin_required
+def admin_schedules():
+    db = get_db()
+    if request.method == "POST":
+        source = request.form["source"].strip()
+        destination = request.form["destination"].strip()
+        price = float(request.form["price"])
+        if not source or not destination or price <= 0:
+            flash("Fill all fields. Price must be more than 0")
+        else:
+            db.execute(
+                """INSERT INTO schedules
+                   (bus_id, source, destination, travel_date, departure_time, price)
+                   VALUES (?, ?, ?, ?, ?, ?)""",
+                (int(request.form["bus_id"]), source, destination,
+                 request.form["travel_date"], request.form["departure_time"], price),
+            )
+            db.commit()
+            flash("Schedule added")
+        return redirect("/admin/schedules")
+
+    buses = db.execute("SELECT * FROM buses").fetchall()
+    schedules = db.execute(
+        """SELECT s.*, b.name AS bus_name
+           FROM schedules s JOIN buses b ON b.id = s.bus_id
+           ORDER BY s.travel_date, s.departure_time"""
+    ).fetchall()
+    return render_template("admin/schedules.html", buses=buses, schedules=schedules)
 
 
-
-
-
-
-
-
+@app.route("/admin/schedules/<int:schedule_id>/delete", methods=["POST"])
+@admin_required
+def delete_schedule(schedule_id):
+    db = get_db()
+    used = db.execute(
+        "SELECT COUNT(*) FROM bookings WHERE schedule_id = ? AND status = 'CONFIRMED'",
+        (schedule_id,),
+    ).fetchone()[0]
+    if used:
+        flash("Cannot delete: schedule has confirmed bookings")
+    else:
+        db.execute("DELETE FROM schedules WHERE id = ?", (schedule_id,))
+        db.commit()
+        flash("Schedule deleted")
+    return redirect("/admin/schedules")
 
 
 # ---- new routes for the next days go ABOVE this line ----
