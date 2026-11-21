@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>All Bookings</h2>
+<table>
+  <tr><th>#</th><th>User</th><th>Bus</th><th>Route</th><th>Date</th><th>Seat</th><th>Passenger</th><th>Status</th><th></th></tr>
+  {% for b in bookings %}
+  <tr>
+    <td>{{ b.id }}</td>
+    <td>{{ b.user_name }}</td>
+    <td>{{ b.bus_name }}</td>
+    <td>{{ b.source }} → {{ b.destination }}</td>
+    <td>{{ b.travel_date }}</td>
+    <td>{{ b.seat_number }}</td>
+    <td>{{ b.passenger_name }}</td>
+    <td>{{ b.status }}</td>
+    <td>
+      {% if b.status == 'CONFIRMED' %}
+      <form method="post" action="/cancel/{{ b.id }}"><button>Cancel</button></form>
+      {% endif %}
+    </td>
+  </tr>
+  {% else %}
+  <tr><td colspan="9">No bookings yet.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

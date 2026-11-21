@@ -299,6 +299,22 @@ def delete_schedule(schedule_id):
     return redirect("/admin/schedules")
 
 
+# ---------- DAY 6: all bookings ----------
+@app.route("/admin/bookings")
+@admin_required
+def admin_bookings():
+    bookings = get_db().execute(
+        """SELECT k.*, u.name AS user_name, s.source, s.destination,
+                  s.travel_date, b.name AS bus_name
+           FROM bookings k
+           JOIN users u ON u.id = k.user_id
+           JOIN schedules s ON s.id = k.schedule_id
+           JOIN buses b ON b.id = s.bus_id
+           ORDER BY k.id DESC"""
+    ).fetchall()
+    return render_template("admin/bookings.html", bookings=bookings)
+
+
 # ---- new routes for the next days go ABOVE this line ----
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
