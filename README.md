@@ -28,9 +28,7 @@ BusGo is a web-based bus booking application built using Python and Flask. Users
 - Cancel bookings
 - Custom 404 error page
 
-## Screenshots
 
-### Home Page
 ## Screenshots
 
 ### User Interface
@@ -39,43 +37,45 @@ BusGo is a web-based bus booking application built using Python and Flask. Users
 
 [![Home Page](screenshots/home.png)](screenshots/home.png)
 
-**Bus Search**
+**User Home Page**
 
-[![Bus Search](screenshots/homesearch.png)](screenshots/homesearch.png)
+[![User Home](screenshots/user_home.png)](screenshots/user_home.png)
 
-**Seat Booking**
+**Seat Selection**
 
-[![Seat Booking](screenshots/seat_booking.png)](screenshots/seat_booking.png)
+[![Seat Selection](screenshots/user_seat_selection.png)](screenshots/user_seat_selection.png)
 
-**Seat Selection – View 2**
+**User Bookings**
 
-[![Seat Selection](screenshots/seats_booking_1.png)](screenshots/seats_booking_1.png)
-
-**Seat Selection – View 3**
-
-[![Seat Selection](screenshots/seats_booking_2.png)](screenshots/seats_booking_2.png)
-
-**My Bookings**
-
-[![My Bookings](screenshots/my_bookings.png)](screenshots/my_bookings.png)
+[![User Bookings](screenshots/user_bookings.png)](screenshots/user_bookings.png)
 
 ### Admin Panel
 
+**Admin Login**
+
+[![Admin Login](screenshots/Admin.png)](screenshots/Admin.png)
+
 **Admin Dashboard**
 
-[![Admin Dashboard](screenshots/Admin.png)](screenshots/Admin.png)
+[![Admin Dashboard](screenshots/admin-dashboard.png)](screenshots/admin-dashboard.png)
 
 **Manage Buses**
 
-[![Manage Buses](screenshots/my_buses.png)](screenshots/my_buses.png)
+[![Manage Buses](screenshots/admin_buses.png)](screenshots/admin_buses.png)
 
 **Manage Schedules**
 
-[![Manage Schedules](screenshots/my_schedules.png)](screenshots/my_schedules.png)
+[![Manage Schedules](screenshots/Admin_schedules.png)](screenshots/Admin_schedules.png)
+
+**Manage Bookings**
+
+[![Manage Bookings](screenshots/Admin_bookings.png)](screenshots/Admin_bookings.png)
 
 **All Bookings**
 
-[![All Bookings](screenshots/all_bookings.png)](screenshots/all_bookings.png)
+[![All Bookings](screenshots/Admin_all_bookings.png)](screenshots/Admin_all_bookings.png)
+
+
 ## Run Locally
 
 ### 1. Clone the repository

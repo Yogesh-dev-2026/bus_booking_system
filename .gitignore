@@ -1,8 +1,29 @@
+
+# Python
 venv/
 __pycache__/
 *.pyc
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Database
 bus.db
-.vscode/
-bus_booking_system/
+*.sqlite
+*.sqlite3
+
+# macOS
 .DS_Store
+
+# VS Code
+.vscode/
+
+# Nested duplicate project
+/bus_booking_system/
+
+# Old screenshots
 screenshots_1/
+
+
