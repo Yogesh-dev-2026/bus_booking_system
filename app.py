@@ -216,32 +216,35 @@ def admin_dashboard():
     }
     return render_template("admin/dashboard.html", stats=stats)
 
+
 @app.route("/admin/buses", methods=["GET", "POST"])
 @admin_required
 def admin_buses():
     db = get_db()
-    if request.method =="POST":
-        name =request.form["name"].strip()
+    if request.method == "POST":
+        name = request.form["name"].strip()
         bus_type = request.form["bus_type"].strip()
         seats = int(request.form["total_seats"])
         if not name or not bus_type or seats < 1 or seats > 60:
-            flash("Fill all the fields. Seats must be between 1 and 60")
+            flash("Fill all fields. Seats must be between 1 and 60")
         else:
             db.execute(
-                "INSERT INTO buses (name , bus_type, totla_seats) VALUES (?, ?, ?)",
+                "INSERT INTO buses (name, bus_type, total_seats) VALUES (?, ?, ?)",
                 (name, bus_type, seats),
             )
             db.commit()
             flash("Bus added")
-        return redirect("/admin/buse")
+        return redirect("/admin/buses")
     buses = db.execute("SELECT * FROM buses ORDER BY id").fetchall()
+    return render_template("admin/buses.html", buses=buses)
 
-@app.route("/admin/buses/<int:bus_id>/delete", methods=["Post"])
+
+@app.route("/admin/buses/<int:bus_id>/delete", methods=["POST"])
 @admin_required
 def delete_bus(bus_id):
     db = get_db()
     used = db.execute(
-    "SELECT COUNT(*) FROM schedules WHERE bus_id = ?", (bus_id,)).fetchone()[0]
+        "SELECT COUNT(*) FROM schedules WHERE bus_id = ?", (bus_id,)).fetchone()[0]
     if used:
         flash("Cannot delete: this bus has schedules")
     else:
@@ -249,6 +252,7 @@ def delete_bus(bus_id):
         db.commit()
         flash("Bus deleted")
     return redirect("/admin/buses")
+
 
 # ---------- DAY 6: manage schedules ----------
 @app.route("/admin/schedules", methods=["GET", "POST"])
