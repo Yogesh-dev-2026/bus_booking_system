@@ -4,3 +4,5 @@ __pycache__/
 bus.db
 .vscode/
 bus_booking_system/
+.DS_Store
+screenshots_1/
