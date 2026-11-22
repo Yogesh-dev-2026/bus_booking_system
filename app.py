@@ -314,6 +314,10 @@ def admin_bookings():
     ).fetchall()
     return render_template("admin/bookings.html", bookings=bookings)
 
+# ---------- DAY 7: custom 404 page ----------
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("404.html"), 404
 
 # ---- new routes for the next days go ABOVE this line ----
 if __name__ == "__main__":
